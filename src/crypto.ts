@@ -1,8 +1,8 @@
-import { crypto } from "https://deno.land/std@0.149.0/crypto/mod.ts";
+import { crypto } from "@std/crypto";
 import {
-  decode as bd,
-  encode as be,
-} from "https://deno.land/std@0.149.0/encoding/base64.ts";
+  decodeBase64 as bd,
+  encodeBase64 as be,
+} from "@std/encoding/base64";
 
 // Helper functions to encrypt / decrypt using AES with default config in CryptoJS
 
@@ -100,9 +100,9 @@ export const decryptCryptoJSAES = async (
   return new TextDecoder().decode(plainText);
 };
 
-const parseCryptoJSCipherText = (cipherText: Uint8Array): {
-  salt: Uint8Array;
-  body: Uint8Array;
+const parseCryptoJSCipherText = (cipherText: Uint8Array<ArrayBuffer>): {
+  salt: Uint8Array<ArrayBuffer>;
+  body: Uint8Array<ArrayBuffer>;
 } => ({
   salt: cipherText.subarray(HEADER_SIZE, HEADER_SIZE + SALT_SIZE),
   body: cipherText.subarray(HEADER_SIZE + SALT_SIZE, cipherText.length),
@@ -114,7 +114,7 @@ const EVPKDF = async (
   salt: Uint8Array,
   algorithm: "SHA-384" | "MD5",
   iterations: number,
-): Promise<{ key: CryptoKey; iv: Uint8Array }> => {
+): Promise<{ key: CryptoKey; iv: Uint8Array<ArrayBuffer> }> => {
   let rawKey = new Uint8Array();
   let block = new Uint8Array();
 
@@ -147,7 +147,7 @@ const EVPKDF = async (
   };
 };
 
-const concatUint8Array = (...arrays: Uint8Array[]): Uint8Array => {
+const concatUint8Array = (...arrays: Uint8Array[]): Uint8Array<ArrayBuffer> => {
   const size = arrays.reduce((len, array) => len + array.length, 0);
 
   const merged = new Uint8Array(size);

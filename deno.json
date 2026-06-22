@@ -1,8 +1,19 @@
 {
-  "name": "@jcs224/oak-sessions",
+  "name": "@affinity-fire/oak-sessions",
   "version": "9.0.0",
   "exports": "./mod.ts",
   "tasks": {
     "typecheck": "deno check ./mod.ts"
+  },
+  "imports": {
+    "@db/mongo": "jsr:@db/mongo@^0.34.0",
+    "@db/postgres": "jsr:@db/postgres@^0.19.5",
+    "@db/redis": "jsr:@db/redis@^0.41.2",
+    "@db/sqlite": "jsr:@db/sqlite@^0.13.0",
+    "@oak/oak": "jsr:@oak/oak@^17.2.0",
+    "@playwright/test": "npm:@playwright/test@^1.61.0",
+    "@sitnik/nanoid": "jsr:@sitnik/nanoid@^5.1.15",
+    "@std/crypto": "jsr:@std/crypto@^1.1.0",
+    "@std/encoding": "jsr:@std/encoding@^1.0.10"
   }
 }

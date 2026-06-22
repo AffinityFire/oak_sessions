@@ -1,37 +1,36 @@
 import Store from './Store.ts'
 import { SessionData } from '../Session.ts'
-import type postgres from "https://deno.land/x/postgresjs@v3.2.4/mod.js";
-
-// deno-lint-ignore ban-types
-type SQLExecutor = postgres.Sql<{}>;
+import type { Client } from "@db/postgres";
 
 export default class PostgresStore implements Store {
-  sql: SQLExecutor
+  sql: Client
   tableName: string
 
-  constructor(sql: SQLExecutor, tableName = 'sessions') {
+  constructor(sql: Client, tableName = 'sessions') {
     this.sql = sql
     this.tableName = tableName
   }
 
   async initSessionsTable() {
-    await this.sql`create table if not exists ${this.sql(this.tableName)} (id varchar(21) not null primary key, data varchar)`;
+    await this.sql.queryArray`create table if not exists ${this.tableName} (id varchar(21) not null primary key, data varchar)`;
   }
 
   async getSessionById(sessionId: string) {
-    const result = await this.sql`select data from ${this.sql(this.tableName)} where id = ${sessionId}`
-    return result.length > 0 ? JSON.parse(result[0].data) as SessionData : null
+    const result = await this.sql.queryObject<{ data: string }>`select data from ${this.tableName} where id = ${sessionId}`
+    if (!result) return null;
+    const s = result?.rows.at(0);
+    return s ? JSON.parse(s.data) as SessionData : null
   }
 
   async createSession(sessionId : string, initialData : SessionData) {
-    await this.sql`insert into ${this.sql(this.tableName)} (id, data) values (${sessionId}, ${JSON.stringify(initialData)})`
+    await this.sql.queryArray`insert into ${this.tableName} (id, data) values (${sessionId}, ${JSON.stringify(initialData)})`
   }
 
   async deleteSession(sessionId: string) {
-    await this.sql`delete from ${this.sql(this.tableName)} where id = ${sessionId}`
+    await this.sql.queryArray`delete from ${this.tableName} where id = ${sessionId}`
   }
 
   async persistSessionData(sessionId : string, sessionData : SessionData) {
-    await this.sql`update ${this.sql(this.tableName)} set data = ${JSON.stringify(sessionData)} where id = ${sessionId}`
+    await this.sql.queryArray`update ${this.tableName} set data = ${JSON.stringify(sessionData)} where id = ${sessionId}`
   }
 }

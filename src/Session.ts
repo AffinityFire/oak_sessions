@@ -1,9 +1,9 @@
-import { nanoid } from 'https://deno.land/x/nanoid@v3.0.0/async.ts'
+import { nanoid } from "@sitnik/nanoid";
 import MemoryStore from './stores/MemoryStore.ts'
 import CookieStore from './stores/CookieStore.ts'
-import type { Context, Middleware } from '../deps.ts'
+import type { Context, Middleware } from '@oak/oak'
 import type Store from './stores/Store.ts'
-import type { CookiesGetOptions, CookiesSetDeleteOptions } from '../deps.ts'
+import type { CookiesGetOptions, CookiesSetDeleteOptions } from '@oak/oak'
 
 
 interface SessionOptions {
@@ -94,7 +94,7 @@ export default class Session {
         store instanceof CookieStore ? store.deleteSession(ctx) : await store.deleteSession(session.sid)
       }
     }
-    
+
     return initMiddleware
   }
 
@@ -112,9 +112,9 @@ export default class Session {
 
   // should only be called in `initMiddleware()` when creating a new session
   private static async createSession(
-    ctx : Context, 
-    store : Store | CookieStore, 
-    expiration : number | null | undefined, 
+    ctx : Context,
+    store : Store | CookieStore,
+    expiration : number | null | undefined,
     defaultData?: SessionData
   ) : Promise<Session> {
     const sessionData = defaultData ? defaultData : {

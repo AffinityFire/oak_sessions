@@ -1,4 +1,4 @@
-import { Application, Router } from "jsr:@oak/oak@^17"
+import { Application, Router } from "@oak/oak"
 import { Session } from '../mod.ts'
 import { makeStore } from "./makeStore.ts";
 
