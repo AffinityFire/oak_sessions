@@ -1,8 +1,5 @@
 import { crypto } from "@std/crypto";
-import {
-  decodeBase64 as bd,
-  encodeBase64 as be,
-} from "@std/encoding/base64";
+import { decodeBase64 as bd, encodeBase64 as be } from "@std/encoding/base64";
 
 // Helper functions to encrypt / decrypt using AES with default config in CryptoJS
 
