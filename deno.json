@@ -1,6 +1,6 @@
 {
   "name": "@affinity-fire/oak-sessions",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "exports": "./mod.ts",
   "tasks": {
     "typecheck": "deno check ./mod.ts"
