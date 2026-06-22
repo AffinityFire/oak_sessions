@@ -1,4 +1,4 @@
-import Store from "./Store.ts";
+import type Store from "./Store.ts";
 import type { Collection, Database } from "@db/mongo";
 import type { SessionData } from "../Session.ts";
 
@@ -16,7 +16,9 @@ export default class MongoStore implements Store {
     this.sessions = db.collection(collectionName);
   }
 
-  async getSessionById(sessionId: string) {
+  async getSessionById(
+    sessionId: string,
+  ): Promise<SessionData | null> {
     const session = await this.sessions.findOne({ id: sessionId });
 
     return session ? session.data : null;

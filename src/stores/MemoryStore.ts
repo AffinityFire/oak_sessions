@@ -1,5 +1,5 @@
-import Store from "./Store.ts";
-import { SessionData } from "../Session.ts";
+import type Store from "./Store.ts";
+import type { SessionData } from "../Session.ts";
 
 export default class MemoryStore implements Store {
   data: Map<string, SessionData>;
@@ -8,7 +8,7 @@ export default class MemoryStore implements Store {
     this.data = new Map();
   }
 
-  getSessionById(sessionId: string) {
+  getSessionById(sessionId: string): SessionData | null {
     return this.data.has(sessionId) ? this.data.get(sessionId)! : null;
   }
 

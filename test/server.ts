@@ -1,5 +1,5 @@
-import { Application, Router } from "@oak/oak"
-import { Session } from '../mod.ts'
+import { Application, Router } from "@oak/oak";
+import { Session } from "../mod.ts";
 import { makeStore } from "./makeStore.ts";
 
 type AppState = {

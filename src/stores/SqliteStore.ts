@@ -1,6 +1,6 @@
-import { Database } from "@db/sqlite";
-import Store from "./Store.ts";
-import { SessionData } from "../Session.ts";
+import type { Database } from "@db/sqlite";
+import type Store from "./Store.ts";
+import type { SessionData } from "../Session.ts";
 
 export default class SqliteStore implements Store {
   db: Database;
@@ -14,7 +14,9 @@ export default class SqliteStore implements Store {
     );
   }
 
-  getSessionById(sessionId: string) {
+  getSessionById(
+    sessionId: string,
+  ): SessionData | null {
     let session = "";
 
     for (

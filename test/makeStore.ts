@@ -5,7 +5,7 @@ import {
   PostgresStore,
   RedisStore,
   SqliteStore,
-  Store,
+  type Store,
   WebdisStore,
 } from "../mod.ts";
 import { connect as connectRedis } from "@db/redis";

@@ -1,6 +1,6 @@
-import Store from "./Store.ts";
+import type Store from "./Store.ts";
 import type { Redis } from "@db/redis";
-import { SessionData } from "../Session.ts";
+import type { SessionData } from "../Session.ts";
 
 export default class RedisStore implements Store {
   keyPrefix: string;
@@ -11,7 +11,9 @@ export default class RedisStore implements Store {
     this.db = db;
   }
 
-  async getSessionById(sessionId: string) {
+  async getSessionById(
+    sessionId: string,
+  ): Promise<SessionData | null> {
     const session = await this.db.get(this.keyPrefix + sessionId);
 
     if (session) {

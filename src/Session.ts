@@ -39,7 +39,7 @@ export default class Session {
     cookieGetOptions = {},
     cookieSetOptions = {},
     sessionCookieName = "session",
-  }: SessionOptions = {}) {
+  }: SessionOptions = {}): Middleware {
     const initMiddleware: Middleware = async (ctx, next) => {
       // get sessionId from cookie
       const sid = await ctx.cookies.get(sessionCookieName, cookieGetOptions);
@@ -163,7 +163,7 @@ export default class Session {
 
   // Methods exposed for users to manipulate session data
 
-  get(key: string) {
+  get(key: string): unknown {
     if (key in this.data) {
       return this.data[key];
     } else {
@@ -185,7 +185,7 @@ export default class Session {
     this.data["_flash"][key] = value;
   }
 
-  has(key: string) {
+  has(key: string): boolean {
     return key in this.data || key in this.data["_flash"];
   }
 }

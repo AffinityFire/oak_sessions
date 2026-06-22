@@ -1,5 +1,5 @@
-import Store from "./Store.ts";
-import { SessionData } from "../Session.ts";
+import type Store from "./Store.ts";
+import type { SessionData } from "../Session.ts";
 import type { Client } from "@db/postgres";
 
 export default class PostgresStore implements Store {
@@ -16,7 +16,7 @@ export default class PostgresStore implements Store {
       .queryArray`create table if not exists ${this.tableName} (id varchar(21) not null primary key, data varchar)`;
   }
 
-  async getSessionById(sessionId: string) {
+  async getSessionById(sessionId: string): Promise<SessionData | null> {
     const result = await this.sql.queryObject<
       { data: string }
     >`select data from ${this.tableName} where id = ${sessionId}`;
